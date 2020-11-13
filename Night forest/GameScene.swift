@@ -8,11 +8,18 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // TEXTURES
     var bgTexture: SKTexture!
     var flyHeroTex: SKTexture!
+    var runHeroTex: SKTexture!
+    
+    // Emitters Node
+    var heroEmitter = SKEmitterNode()
+    
+    // emitter
+    var haveEmitter = false
     
     // Sprite Nodes
     var bg = SKSpriteNode()
@@ -26,6 +33,7 @@ class GameScene: SKScene {
     var groundObject = SKNode()
     var heroObject = SKNode()
     var skyObject = SKNode()
+    var heroemitterObject = SKNode()
     
     // Bit masks
     var heroGroup: UInt32 = 0x1 << 1
@@ -33,13 +41,20 @@ class GameScene: SKScene {
     
     // Textures array for animateWithTexture
     var heroflyTexturesArray = [SKTexture]()
+    var heroRunTexturesArray = [SKTexture]()
     
     override func didMove(to view: SKView) {
         // Background texture
         bgTexture = SKTexture(imageNamed: "bg01.png")
         
         // Hero texture
-        flyHeroTex = SKTexture(imageNamed: "r_000.png")
+        flyHeroTex = SKTexture(imageNamed: "jump.png")
+        runHeroTex = SKTexture(imageNamed: "r_000.png")
+        
+        // Emitters
+        heroEmitter = SKEmitterNode(fileNamed: "engine.sks")!
+        
+        self.physicsWorld.contactDelegate = self
         
         createObjects()
         createGame()
@@ -50,13 +65,16 @@ class GameScene: SKScene {
         self.addChild(groundObject)
         self.addChild(skyObject)
         self.addChild(heroObject)
+        self.addChild(heroemitterObject)
     }
     
     func createGame() {
         createBg()
         createGround()
         createSky()
+        
         createHero()
+        createHeroemitter()
     }
     
     func createBg() {
@@ -79,8 +97,8 @@ class GameScene: SKScene {
     
     func createGround() {
         ground = SKSpriteNode()
-        ground.position = CGPoint.zero
-        ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.width, height: self.frame.height/50))
+        ground.position = CGPoint(x: 0, y: self.frame.minX)
+        ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.width, height: self.frame.height / 4 + self.frame.height/8))
         ground.physicsBody?.isDynamic = false
         ground.physicsBody?.categoryBitMask = groundGroup
         ground.zPosition = 1
@@ -91,7 +109,7 @@ class GameScene: SKScene {
     func createSky() {
         sky = SKSpriteNode()
         sky.position = CGPoint(x: 0, y: self.frame.maxX)
-        sky.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width + 100, height: self.frame.size.height - 100))
+        sky.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width + 100, height: self.frame.size.height - 50))
         sky.physicsBody?.isDynamic = false
         sky.zPosition = 1
         skyObject.addChild(sky)
@@ -101,24 +119,21 @@ class GameScene: SKScene {
         hero = SKSpriteNode(texture: flyHeroTex)
         
         // Anim hero
-//        heroflyTexturesArray = [
-//                   SKTexture(imageNamed: "rj_000.png")]
-        heroflyTexturesArray = [
-        SKTexture(imageNamed: "j_000.png"), SKTexture(imageNamed: "j_001.png"), SKTexture(imageNamed: "j_002.png"), SKTexture(imageNamed: "j_003.png"), SKTexture(imageNamed: "j_004.png"), SKTexture(imageNamed: "j_005.png"), SKTexture(imageNamed: "j_006.png"), SKTexture(imageNamed: "j_007.png"), SKTexture(imageNamed: "j_008.png"), SKTexture(imageNamed: "j_009.png"), SKTexture(imageNamed: "j_010.png"), SKTexture(imageNamed: "j_011.png"), SKTexture(imageNamed: "j_012.png"), SKTexture(imageNamed: "j_013.png"), SKTexture(imageNamed: "j_014.png"), SKTexture(imageNamed: "j_015.png"), SKTexture(imageNamed: "j_016.png"), SKTexture(imageNamed: "j_017.png"), SKTexture(imageNamed: "j_018.png"), SKTexture(imageNamed: "j_019.png"), SKTexture(imageNamed: "j_020.png"), SKTexture(imageNamed: "j_021.png"), SKTexture(imageNamed: "j_022.png"), SKTexture(imageNamed: "j_023.png"), SKTexture(imageNamed: "j_024.png")
-        ]
+        
+        heroflyTexturesArray = [SKTexture(imageNamed: "jump.png")]
         let heroFlyAnimation = SKAction.animate(with: heroflyTexturesArray, timePerFrame: 0.02)
         let flyHero = SKAction.repeatForever(heroFlyAnimation)
         hero.run(flyHero)
         
         hero.position = position
         hero.size.height = 120
-        hero.size.width = 78
+        hero.size.width = 85
         
         hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width - 40, height: hero.size.height - 30))
         
-        hero.physicsBody?.collisionBitMask = heroGroup
+        hero.physicsBody?.categoryBitMask = heroGroup
         hero.physicsBody?.contactTestBitMask = groundGroup
-        hero.physicsBody?.contactTestBitMask = groundGroup
+        hero.physicsBody?.collisionBitMask = groundGroup
         
         hero.physicsBody?.isDynamic = true
         hero.physicsBody?.allowsRotation = false
@@ -129,6 +144,16 @@ class GameScene: SKScene {
     
     func createHero() {
         addHero(heroNode: hero, atPosition: CGPoint(x: self.size.width / 4, y: 0 + flyHeroTex.size().height + 400))
+    }
+    
+    func createHeroemitter() {
+        heroEmitter = SKEmitterNode(fileNamed: "engine.sks")!
+        heroemitterObject.zPosition = 1
+        heroemitterObject.addChild(heroEmitter)
+    }
+    
+    override func didFinishUpdate() {
+        heroEmitter.position = hero.position - CGPoint(x: 10, y: 60)
     }
 
 }
