@@ -537,29 +537,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func showTapToPlay() {
         tabToPlayLabel.text = "Tap to fly!"
         tabToPlayLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        tabToPlayLabel.fontSize = 50
-        tabToPlayLabel.fontColor = .white
-        tabToPlayLabel.fontName = "Chalkduster"
+        tabToPlayLabel.fontSize = 90
+        tabToPlayLabel.fontColor = .black
+        tabToPlayLabel.fontName = "ArrrMateyBB"
         tabToPlayLabel.zPosition = 1
         self.addChild(tabToPlayLabel)
     }
     
     func showScore() {
-        scoreLabel.fontName = "Chalkduster"
+        scoreLabel.fontName = "ArrrMateyBB"
         scoreLabel.text = "0"
         scoreLabel.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 200)
-        scoreLabel.fontSize = 60
-        scoreLabel.fontColor = .white
+        scoreLabel.fontSize = 100
+        scoreLabel.fontColor = .black
         scoreLabel.zPosition = 1
         self.addChild(scoreLabel)
     }
     
     func showHighScore() {
         highScoreLabel = SKLabelNode()
-        highScoreLabel.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.maxY - 210)
-        highScoreLabel.fontSize = 50
-        highScoreLabel.fontName = "Chalkduster"
-        highScoreLabel.fontColor = .white
+        let screenSize = UIScreen.main.bounds
+        if screenSize.width > 800 {
+            highScoreLabel.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.maxY - 245)
+        } else {
+            highScoreLabel.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.maxY - 210)
+        }
+        
+        highScoreLabel.fontSize = 90
+        highScoreLabel.fontName = "ArrrMateyBB"
+        highScoreLabel.fontColor = .black
         highScoreLabel.isHidden = true
         highScoreLabel.zPosition = 1
         labelObject.addChild(highScoreLabel)
@@ -567,20 +573,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func showHighScoreText() {
         highScoreTextLabel = SKLabelNode()
-        highScoreTextLabel.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.maxY - 150)
-        highScoreTextLabel.fontSize = 30
-        highScoreTextLabel.fontName = "Chalkduster"
-        highScoreTextLabel.fontColor = .white
+        let screenSize = UIScreen.main.bounds
+        if screenSize.width > 800 {
+            highScoreTextLabel.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.maxY - 200)
+        } else {
+            highScoreTextLabel.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.maxY - 150)
+        }
+       
+        highScoreTextLabel.fontSize = 70
+        highScoreTextLabel.fontName = "ArrrMateyBB"
+        highScoreTextLabel.fontColor = .black
         highScoreTextLabel.text = "HighScore"
         highScoreTextLabel.zPosition = 1
         labelObject.addChild(highScoreTextLabel)
     }
     
     func showStage() {
-        stageLabel.position = CGPoint(x: self.frame.maxX - 60, y: self.frame.maxY - 140)
-        stageLabel.fontSize = 30
-        stageLabel.fontName = "Chalkduster"
-        stageLabel.fontColor = .white
+        let screenSize = UIScreen.main.bounds
+        if screenSize.width > 800 {
+            stageLabel.position = CGPoint(x: self.frame.maxX - 60, y: self.frame.maxY - 200)
+        } else {
+            stageLabel.position = CGPoint(x: self.frame.maxX - 60, y: self.frame.maxY - 150)
+        }
+        stageLabel.fontSize = 70
+        stageLabel.fontName = "ArrrMateyBB"
+        stageLabel.fontColor = .black
         stageLabel.text = "Stage 1"
         stageLabel.zPosition = 1
         self.addChild(stageLabel)

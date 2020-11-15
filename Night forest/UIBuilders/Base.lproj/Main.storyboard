@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mFj-ez-esP">
+    <device id="retina6_1" orientation="landscape" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="ArrrMateyBB.ttf">
+            <string>ArrrMateyBB</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Game View Controller-->
+        <scene sceneID="tXr-a1-R10">
+            <objects>
+                <viewController storyboardIdentifier="GameViewController" id="BV1-FR-VrT" customClass="GameViewController" customModule="Night_forest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x4a-Qo-sMN">
+                                <rect key="frame" x="382" y="170" width="167" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="175" id="Ms1-z8-5EU"/>
+                                    <constraint firstAttribute="height" constant="75" id="Y1E-mQ-vRr"/>
+                                </constraints>
+                                <state key="normal" image="restart2.png"/>
+                                <connections>
+                                    <action selector="reloadGameButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="4pX-ne-Ddm"/>
+                                </connections>
+                            </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YE0-55-KQH">
+                                <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg01" translatesAutoresizingMaskIntoConstraints="NO" id="nvj-GG-j8j">
+                                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                                    </imageView>
+                                    <visualEffectView opaque="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SGW-NN-oQS">
+                                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="XRv-zT-m5C">
+                                            <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                        <blurEffect style="regular"/>
+                                    </visualEffectView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uzW-7U-VLM">
+                                        <rect key="frame" x="297" y="163" width="302" height="88"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="302" id="1Rh-SV-ScK"/>
+                                            <constraint firstAttribute="height" constant="88" id="VDM-yM-aX5"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ArrrMateyBB" family="Arrr Matey BB" pointSize="69"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="0.0" height="0.0"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="SGW-NN-oQS" secondAttribute="trailing" id="9IU-Jc-jr3"/>
+                                    <constraint firstItem="SGW-NN-oQS" firstAttribute="leading" secondItem="YE0-55-KQH" secondAttribute="leading" id="9jk-4y-WNV"/>
+                                    <constraint firstItem="uzW-7U-VLM" firstAttribute="centerY" secondItem="YE0-55-KQH" secondAttribute="centerY" id="CGw-N4-1kw"/>
+                                    <constraint firstAttribute="trailing" secondItem="nvj-GG-j8j" secondAttribute="trailing" id="DRW-Va-fkP"/>
+                                    <constraint firstAttribute="bottom" secondItem="SGW-NN-oQS" secondAttribute="bottom" id="Vkw-TI-9ZO"/>
+                                    <constraint firstItem="uzW-7U-VLM" firstAttribute="centerX" secondItem="YE0-55-KQH" secondAttribute="centerX" id="YsO-4g-lw5"/>
+                                    <constraint firstItem="nvj-GG-j8j" firstAttribute="leading" secondItem="YE0-55-KQH" secondAttribute="leading" id="ZcA-VX-Uax"/>
+                                    <constraint firstAttribute="bottom" secondItem="nvj-GG-j8j" secondAttribute="bottom" id="jP9-Xu-oRF"/>
+                                    <constraint firstItem="nvj-GG-j8j" firstAttribute="top" secondItem="YE0-55-KQH" secondAttribute="top" id="oEz-Yx-DH0"/>
+                                    <constraint firstItem="SGW-NN-oQS" firstAttribute="top" secondItem="YE0-55-KQH" secondAttribute="top" id="whk-IP-5wQ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="x4a-Qo-sMN" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="1Cz-ZN-qeK"/>
+                            <constraint firstItem="YE0-55-KQH" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" id="3j7-NZ-S5R"/>
+                            <constraint firstItem="YE0-55-KQH" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" id="8xV-cW-0yQ"/>
+                            <constraint firstAttribute="trailing" secondItem="YE0-55-KQH" secondAttribute="trailing" id="ieZ-J1-W2z"/>
+                            <constraint firstItem="x4a-Qo-sMN" firstAttribute="centerY" secondItem="3se-qz-xqx" secondAttribute="centerY" id="ka7-Ff-YEc"/>
+                            <constraint firstAttribute="bottom" secondItem="YE0-55-KQH" secondAttribute="bottom" id="tqV-d1-KWE"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
+                    </view>
+                    <connections>
+                        <outlet property="loadingView" destination="YE0-55-KQH" id="hTU-AW-ndo"/>
+                        <outlet property="reloadButton" destination="x4a-Qo-sMN" id="FsD-a7-cYN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="881.91964285714278" y="92.753623188405811"/>
+        </scene>
+        <!--Main View Controller-->
+        <scene sceneID="xN3-Zj-Kos">
+            <objects>
+                <viewController storyboardIdentifier="MainViewController" id="voi-rP-lh0" customClass="MainViewController" customModule="Night_forest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fz4-hQ-Y2k">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="first.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="B0w-If-ex0">
+                                <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SHR-Ni-QCd">
+                                <rect key="frame" x="373" y="308" width="150" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="FtK-V1-gTh"/>
+                                    <constraint firstAttribute="width" constant="150" id="TyY-6c-GUb"/>
+                                </constraints>
+                                <state key="normal" image="start2.png"/>
+                                <connections>
+                                    <action selector="startGame:" destination="voi-rP-lh0" eventType="touchUpInside" id="6Pe-Va-Ss7"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="B0w-If-ex0" firstAttribute="top" secondItem="oCb-Em-ihx" secondAttribute="top" id="0AF-ru-F45"/>
+                            <constraint firstAttribute="bottom" secondItem="B0w-If-ex0" secondAttribute="bottom" id="G79-Ee-DcH"/>
+                            <constraint firstAttribute="trailing" secondItem="B0w-If-ex0" secondAttribute="trailing" id="SPc-VS-EDD"/>
+                            <constraint firstItem="oCb-Em-ihx" firstAttribute="bottom" secondItem="SHR-Ni-QCd" secondAttribute="bottom" constant="25" id="YX6-V8-6vY"/>
+                            <constraint firstItem="SHR-Ni-QCd" firstAttribute="centerX" secondItem="fz4-hQ-Y2k" secondAttribute="centerX" id="bAE-d9-wo1"/>
+                            <constraint firstItem="B0w-If-ex0" firstAttribute="leading" secondItem="fz4-hQ-Y2k" secondAttribute="leading" id="gfP-Rk-pm2"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="oCb-Em-ihx"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ehg-y3-ld6"/>
+                    <connections>
+                        <outlet property="startButton" destination="SHR-Ni-QCd" id="drr-pp-v39"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BCA-RC-efg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="192.85714285714286" y="92.753623188405811"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="OdT-5w-h17">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="mFj-ez-esP" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FgL-Oh-qQr">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="voi-rP-lh0" kind="relationship" relationship="rootViewController" id="STw-Du-Zvf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iXp-6M-diP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-550.44642857142856" y="92.753623188405811"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="bg01" width="667" height="375"/>
+        <image name="first.jpg" width="3781.43994140625" height="2182.56005859375"/>
+        <image name="restart2.png" width="23256" height="15624"/>
+        <image name="start2.png" width="23256" height="15624"/>
+    </resources>
+</document>
