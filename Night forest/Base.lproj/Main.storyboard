@@ -15,15 +15,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHD-VI-afc">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x4a-Qo-sMN">
                                 <rect key="frame" x="410.5" y="169.5" width="75" height="75"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="75" id="MJf-U0-4aK"/>
-                                    <constraint firstAttribute="height" constant="75" id="maY-VE-ReV"/>
+                                    <constraint firstAttribute="width" constant="75" id="Ms1-z8-5EU"/>
+                                    <constraint firstAttribute="height" constant="75" id="Y1E-mQ-vRr"/>
                                 </constraints>
                                 <state key="normal" image="reloadButton.png"/>
                                 <connections>
-                                    <action selector="reloadGameButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="hGF-4O-YeY"/>
+                                    <action selector="reloadGameButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="4pX-ne-Ddm"/>
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YE0-55-KQH">
@@ -68,18 +68,18 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="IHD-VI-afc" firstAttribute="centerY" secondItem="3se-qz-xqx" secondAttribute="centerY" id="2ZW-W4-nW8"/>
+                            <constraint firstItem="x4a-Qo-sMN" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="1Cz-ZN-qeK"/>
                             <constraint firstItem="YE0-55-KQH" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" id="3j7-NZ-S5R"/>
                             <constraint firstItem="YE0-55-KQH" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" id="8xV-cW-0yQ"/>
-                            <constraint firstItem="IHD-VI-afc" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="a9k-2B-DK4"/>
                             <constraint firstAttribute="trailing" secondItem="YE0-55-KQH" secondAttribute="trailing" id="ieZ-J1-W2z"/>
+                            <constraint firstItem="x4a-Qo-sMN" firstAttribute="centerY" secondItem="3se-qz-xqx" secondAttribute="centerY" id="ka7-Ff-YEc"/>
                             <constraint firstAttribute="bottom" secondItem="YE0-55-KQH" secondAttribute="bottom" id="tqV-d1-KWE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
                     <connections>
                         <outlet property="loadingView" destination="YE0-55-KQH" id="hTU-AW-ndo"/>
-                        <outlet property="refreshGameButton" destination="IHD-VI-afc" id="quS-y0-F9Y"/>
+                        <outlet property="reloadButton" destination="x4a-Qo-sMN" id="FsD-a7-cYN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>

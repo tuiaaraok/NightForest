@@ -15,7 +15,8 @@ class GameViewController: UIViewController {
     var scene = GameScene(size: CGSize(width: 1024, height: 768))
     let textureAtlas = SKTextureAtlas(named: "scene.atlas")
     
-    @IBOutlet weak var refreshGameButton: UIButton!
+
+    @IBOutlet weak var reloadButton: UIButton!
     @IBOutlet weak var loadingView: UIView!
  
     override func viewDidLoad() {
@@ -23,7 +24,7 @@ class GameViewController: UIViewController {
         
         loadingView.isHidden = false
         
-        refreshGameButton.isHidden = true
+        reloadButton.isHidden = true
         
         let view = self.view as! SKView
         view.ignoresSiblingOrder = true
@@ -43,7 +44,7 @@ class GameViewController: UIViewController {
     @IBAction func reloadGameButton(_ sender: UIButton) {
         scene.reloadGame()
         scene.gameViewControllerBridge = self
-        refreshGameButton.isHidden = true
+        reloadButton.isHidden = true
     }
     
     override var shouldAutorotate: Bool {

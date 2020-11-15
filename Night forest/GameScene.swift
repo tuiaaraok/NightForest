@@ -189,7 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         showStage()
         highScoreTextLabel.isHidden = true
         
-        gameViewControllerBridge.refreshGameButton.isHidden = true
+        gameViewControllerBridge.reloadButton.isHidden = true
         
         if labelObject.children.count != 0 {
             labelObject.removeAllChildren()

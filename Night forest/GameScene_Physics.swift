@@ -61,7 +61,7 @@ extension GameScene {
                                           
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.showHighScoreText()
-                        self.gameViewControllerBridge.refreshGameButton.isHidden = false
+                        self.gameViewControllerBridge.reloadButton.isHidden = false
                         self.stageLabel.isHidden = true
                         
                         if self.score > self.highScore {
