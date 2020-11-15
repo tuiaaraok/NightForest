@@ -13,11 +13,16 @@ import GameplayKit
 class GameViewController: UIViewController {
     
     var scene = GameScene(size: CGSize(width: 1024, height: 768))
+    let textureAtlas = SKTextureAtlas(named: "scene.atlas")
     
     @IBOutlet weak var refreshGameButton: UIButton!
+    @IBOutlet weak var loadingView: UIView!
  
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadingView.isHidden = false
+        
         refreshGameButton.isHidden = true
         
         let view = self.view as! SKView
@@ -25,11 +30,19 @@ class GameViewController: UIViewController {
         
         scene.scaleMode = .aspectFill
         scene.gameViewControllerBridge = self
-        view.presentScene(scene)
+        
+        textureAtlas.preload {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                self.loadingView.isHidden = true
+                view.presentScene(self.scene)
+            }
+        }
     }
     
     @IBAction func reloadGameButton(_ sender: UIButton) {
         scene.reloadGame()
+        scene.gameViewControllerBridge = self
         refreshGameButton.isHidden = true
     }
     

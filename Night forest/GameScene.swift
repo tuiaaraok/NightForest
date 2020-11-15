@@ -16,6 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameViewControllerBridge: GameViewController!
     var death = false
     var animations = AnimationClass()
+    var shieldBool = false
     
     // TEXTURES
     var bgTexture: SKTexture!
@@ -27,6 +28,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var redCoinHeroTex: SKTexture!
     var batTex: SKTexture!
     var deadHeroTex: SKTexture!
+    var spiderTex: SKTexture!
+    var beeTex: SKTexture!
+    var shieldTexture: SKTexture!
+    var shieldItemTexture: SKTexture!
     
     // Emitters Node
     var heroEmitter = SKEmitterNode()
@@ -42,6 +47,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var coin = SKSpriteNode()
     var redCoin = SKSpriteNode()
     var bat = SKSpriteNode()
+    var spider = SKSpriteNode()
+    var bee = SKSpriteNode()
+    var shield = SKSpriteNode()
+    var shieldItem = SKSpriteNode()
     
     
     // Sprites Objects
@@ -52,6 +61,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var heroemitterObject = SKNode()
     var coinObject = SKNode()
     var redCoinObject = SKNode()
+    var shieldObject = SKNode()
+    var shieldItemObject = SKNode()
     
     // Bit masks
     var heroGroup: UInt32 = 0x1 << 1
@@ -59,6 +70,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var coinGroup: UInt32 = 0x1 << 3
     var redCoinGroup: UInt32 = 0x1 << 4
     var objectGroup: UInt32 = 0x1 << 5
+    var shieldGroup: UInt32 = 0x1 << 6
     
     // Textures array for animateWithTexture
     var heroflyTexturesArray = [SKTexture]()
@@ -66,16 +78,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var coinTexturesArray = [SKTexture]()
     var batTexturesArray = [SKTexture]()
     var heroDeathTexturesArray = [SKTexture]()
+    var spiderTexturesArray = [SKTexture]()
+    var beeTexturesArray = [SKTexture]()
     
     // Timers
     var timerAddCoin = Timer()
     var timerAddRedCoin = Timer()
     var timerAddBoneTimer = Timer()
+    var timerAddSpiderTimer = Timer()
+    var timerAddBee = Timer()
+    var timerAddShieldItem = Timer()
     
     // Sounds
     var pickCoinPreload = SKAction()
     var batCreatePreload = SKAction()
     var batDeadPreload = SKAction()
+    var spiderCreatePreload = SKAction()
+    var beeCreatePreload = SKAction()
+    var shieldOnPreload = SKAction()
+    var shieldOffPreload = SKAction()
     
     override func didMove(to view: SKView) {
         // Background texture
@@ -91,8 +112,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         coinHeroTex = SKTexture(imageNamed: "Coin0.png")
         redCoinHeroTex = SKTexture(imageNamed: "Coin0.jpg")
         
-        // Bone texture
+        // Enemies texture
         batTex = SKTexture(imageNamed: "bat-1.png")
+        spiderTex = SKTexture(imageNamed: "SpiderW_000.png")
+        beeTex = SKTexture(imageNamed: "bee_1.png")
+        
+        // shields and item texture
+        shieldTexture = SKTexture(imageNamed: "shield1.png")
+        shieldItemTexture = SKTexture(imageNamed: "shield.png")
         
         // Emitters
         heroEmitter = SKEmitterNode(fileNamed: "engine.sks")!
@@ -105,6 +132,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pickCoinPreload = SKAction.playSoundFileNamed("pickCoin.mp3", waitForCompletion: false)
         batCreatePreload = SKAction.playSoundFileNamed("bat.mp3", waitForCompletion: false)
         batDeadPreload = SKAction.playSoundFileNamed("batDeath2.mp3", waitForCompletion: false)
+        spiderCreatePreload = SKAction.playSoundFileNamed("createSpider.mp3", waitForCompletion: false)
+        beeCreatePreload = SKAction.playSoundFileNamed("bee.mp3", waitForCompletion: false)
+//        shieldOnPreload = SKAction.playSoundFileNamed("", waitForCompletion: false)
     }
     
     func createObjects() {
@@ -115,6 +145,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(heroemitterObject)
         self.addChild(coinObject)
         self.addChild(redCoinObject)
+        self.addChild(shieldObject)
+        self.addChild(shieldItemObject)
     }
     
     func createGame() {
@@ -127,6 +159,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.createHeroemitter()
             self.timerFunc()
             self.addBat()
+            self.addSpider()
         }
         
         gameViewControllerBridge.refreshGameButton.isHidden = true
@@ -187,7 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width - 40, height: hero.size.height - 30))
         
         hero.physicsBody?.categoryBitMask = heroGroup
-        hero.physicsBody?.contactTestBitMask = groundGroup | coinGroup | redCoinGroup | objectGroup
+        hero.physicsBody?.contactTestBitMask = groundGroup | coinGroup | redCoinGroup | objectGroup | shieldGroup
         hero.physicsBody?.collisionBitMask = groundGroup
         
         hero.physicsBody?.isDynamic = true
@@ -325,14 +358,151 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         movingObject.addChild(bat)
     }
     
+    @objc func addSpider() {
+        if sound {
+            run(spiderCreatePreload)
+        }
+               
+        spider = SKSpriteNode(texture: spiderTex)
+        spiderTexturesArray = [
+            SKTexture(imageNamed: "spiderW_001.png"), SKTexture(imageNamed: "spiderW_000.png"),
+            SKTexture(imageNamed: "spiderW_003.png"), SKTexture(imageNamed: "spiderW_000.png"), SKTexture(imageNamed: "spiderW_005.png"), SKTexture(imageNamed: "spiderW_000.png"), SKTexture(imageNamed: "spiderW_007.png"), SKTexture(imageNamed: "spiderW_000.png"), SKTexture(imageNamed: "spiderW_009.png"), SKTexture(imageNamed: "spiderW_010.png"),SKTexture(imageNamed: "spiderW_011.png"), SKTexture(imageNamed: "spiderW_012.png"), SKTexture(imageNamed: "spiderW_013.png"), SKTexture(imageNamed: "spiderW_014.png"), SKTexture(imageNamed: "spiderW_015.png"), SKTexture(imageNamed: "spiderW_016.png"), SKTexture(imageNamed: "spiderW_017.png"), SKTexture(imageNamed: "spiderW_018.png"), SKTexture(imageNamed: "spiderW_019.png"),SKTexture(imageNamed: "spiderW_020.png"), SKTexture(imageNamed: "spiderW_021.png"), SKTexture(imageNamed: "spiderW_022.png"), SKTexture(imageNamed: "spiderW_023.png"), SKTexture(imageNamed: "spiderW_024.png"), SKTexture(imageNamed: "spiderW_025.png"), SKTexture(imageNamed: "spiderW_026.png"), SKTexture(imageNamed: "spiderW_027.png"), SKTexture(imageNamed: "spiderW_028.png"),SKTexture(imageNamed: "spiderW_029.png"), SKTexture(imageNamed: "spiderW_030.png"), SKTexture(imageNamed: "spiderW_031.png"), SKTexture(imageNamed: "spiderW_032.png"), SKTexture(imageNamed: "spiderW_033.png"), SKTexture(imageNamed: "spiderW_034.png"), SKTexture(imageNamed: "spiderW_035.png"), SKTexture(imageNamed: "spiderW_036.png"),SKTexture(imageNamed: "spiderW_037.png"),SKTexture(imageNamed: "spiderW_038.png"), SKTexture(imageNamed: "spiderW_039.png"), SKTexture(imageNamed: "spiderW_040.png"), SKTexture(imageNamed: "spiderW_041.png"), SKTexture(imageNamed: "spiderW_042.png"), SKTexture(imageNamed: "spiderW_043.png"), SKTexture(imageNamed: "spiderW_044.png"), SKTexture(imageNamed: "spiderW_045.png"), SKTexture(imageNamed: "spiderW_046.png"),SKTexture(imageNamed: "spiderW_047.png")
+        ]
+        let spiderAnimation = SKAction.animate(with: spiderTexturesArray, timePerFrame: 0.03)
+        let spiderHero = SKAction.repeatForever(spiderAnimation)
+        spider.run(spiderHero)
+        
+        spider.size.width = 90
+        spider.size.height = 62
+        spider.speed  = 2.5
+        
+        var scaleValue: CGFloat = 0.3
+               
+        let scaleRandom = arc4random() % UInt32(5)
+        if scaleRandom == 1 { scaleValue = 0.9 }
+        else  if scaleRandom == 2 { scaleValue = 0.6 }
+        else if scaleRandom == 3 { scaleValue = 0.8 }
+        else if scaleRandom == 4 { scaleValue = 0.7 }
+        else if scaleRandom == 0 { scaleValue = 1.0 }
+               
+        spider.setScale(scaleValue)
+            
+               
+        spider.position = CGPoint(x: self.frame.size.width + 150, y: self.frame.size.height / 4 - self.frame.size.height / 24)
+               
+        let moveSpiderX = SKAction.moveTo(x: -self.frame.size.width / 4, duration: 4)
+        spider.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: spider.size.width - 40, height: spider.size.height - 30))
+        spider.physicsBody?.categoryBitMask = objectGroup
+        spider.physicsBody?.isDynamic = false
+               
+        let removeAction = SKAction.removeFromParent()
+        let spiderMoveBgForever = SKAction.repeatForever(SKAction.sequence([moveSpiderX, removeAction]))
+               
+        spider.run(spiderMoveBgForever)
+        spider.zPosition = 1
+        movingObject.addChild(spider)
+    }
+    
+    @objc func addBee() {
+        if sound {
+            run(beeCreatePreload)
+        }
+                  
+        bee = SKSpriteNode(texture: beeTex)
+        beeTexturesArray = [
+            SKTexture(imageNamed: "bee_1.png"), SKTexture(imageNamed: "bee_2.png"), SKTexture(imageNamed: "bee_3.png"), SKTexture(imageNamed: "bee_4.png"), SKTexture(imageNamed: "bee_5.png"), SKTexture(imageNamed: "bee_6.png"),
+           ]
+           let beeAnimation = SKAction.animate(with: beeTexturesArray, timePerFrame: 0.03)
+           let beeHero = SKAction.repeatForever(beeAnimation)
+           bee.run(beeHero)
+        
+        let movementRandom = arc4random() % 9
+        let movementAmount = arc4random() % UInt32(self.frame.size.height / 2)
+        let pipeOffset = CGFloat(movementAmount) - self.frame.size.height / 4
+              if movementRandom == 0 {
+                  moveBatY = SKAction.moveTo(y: self.frame.height / 2 + 180, duration: 8)
+              } else if movementRandom == 1 {
+                  moveBatY = SKAction.moveTo(y: self.frame.height / 2 - 180, duration: 5)
+              } else if movementRandom == 2 {
+                  moveBatY = SKAction.moveTo(y: self.frame.height / 2 - 200, duration: 8)
+              } else if movementRandom == 3 {
+                  moveBatY = SKAction.moveTo(y: self.frame.height / 2 + 200, duration: 5)
+              } else if movementRandom == 4 {
+                  moveBatY = SKAction.moveTo(y: self.frame.height / 2 + 40, duration: 4)
+              } else if movementRandom == 5 {
+                  moveBatY = SKAction.moveTo(y: self.frame.height / 2 - 35, duration: 5)
+              } else {
+                  moveBatY = SKAction.moveTo(y: self.frame.height / 2, duration: 4)
+              }
+              
+        bee.run(moveBatY)
+           
+        bee.size.width = 70
+        bee.size.height = 50
+        bee.speed  = 3.3
+                  
+        bee.position = CGPoint(x: self.frame.size.width + 150, y: self.frame.size.height / 4 - self.frame.size.height / 24 + pipeOffset)
+                  
+        let moveBeeX = SKAction.moveTo(x: -self.frame.size.width / 2, duration: 8)
+        bee.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: bee.size.width - 43, height: bee.size.height - 27))
+        bee.physicsBody?.categoryBitMask = objectGroup
+        bee.physicsBody?.isDynamic = false
+                  
+        let removeAction = SKAction.removeFromParent()
+        let beeMoveBgForever = SKAction.repeatForever(SKAction.sequence([moveBeeX, removeAction]))
+                  
+        bee.run(beeMoveBgForever)
+        bee.zPosition = 1
+        movingObject.addChild(bee)
+    }
+    
+    func addShield() {
+        shield = SKSpriteNode(texture: shieldTexture)
+        if sound == true { run(shieldOnPreload) }
+        shield.zPosition = 1
+        shieldObject.addChild(shield)
+    }
+    
+    @objc func addShieldItem() {
+        shieldItem = SKSpriteNode(texture: shieldItemTexture)
+        
+        let movementAmount = arc4random() % UInt32(self.frame.size.height / 2)
+        let pipeOffset = CGFloat(movementAmount) - self.frame.size.height / 4
+        
+        shieldItem.size.width = 50
+        shieldItem.size.height = 65
+        
+        shieldItem.position = CGPoint(x: self.size.width + 50, y: 0 + shieldItemTexture.size().height + self.size.height / 45 + pipeOffset)
+        shieldItem.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: shieldItem.size.width - 20, height: shieldItem.size.height - 20))
+        shieldItem.physicsBody?.restitution = 0
+        
+        let moveShield = SKAction.moveBy(x: -self.size.width * 2, y: 0, duration: 5)
+        let removeAction = SKAction.removeFromParent()
+        let shieldItemMoveBgForever = SKAction.repeatForever(SKAction.sequence([moveShield, removeAction]))
+        shieldItem.run(shieldItemMoveBgForever)
+        
+        shieldItem.setScale(1.1)
+        
+        shieldItem.physicsBody?.isDynamic = false
+        shieldItem.physicsBody?.categoryBitMask = shieldGroup
+        shieldItem.zPosition = 1
+        shieldItemObject.addChild(shieldItem)
+    }
+    
     func timerFunc() {
         timerAddCoin.invalidate()
         timerAddRedCoin.invalidate()
         timerAddBoneTimer.invalidate()
+        timerAddSpiderTimer.invalidate()
+        timerAddBee.invalidate()
+        timerAddShieldItem.invalidate()
         
         timerAddCoin = Timer.scheduledTimer(timeInterval: 2.64, target: self, selector: #selector(GameScene.addCoin), userInfo: nil, repeats: true)
         timerAddRedCoin = Timer.scheduledTimer(timeInterval: 8.246, target: self, selector: #selector(GameScene.redCoinAdd), userInfo: nil, repeats: true)
         timerAddBoneTimer = Timer.scheduledTimer(timeInterval: 5.236, target: self, selector: #selector(GameScene.addBat), userInfo: nil, repeats: true)
+        timerAddSpiderTimer = Timer.scheduledTimer(timeInterval: 4.275, target: self, selector: #selector(GameScene.addSpider), userInfo: nil, repeats: true)
+        timerAddBee = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(GameScene.addBee), userInfo: nil, repeats: true)
+        timerAddShieldItem = Timer.scheduledTimer(timeInterval: 20.45, target: self, selector: #selector(GameScene.addShieldItem), userInfo: nil, repeats: true)
     }
     
     func stopGameObject() {
@@ -340,6 +510,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         redCoinObject.speed = 0
         movingObject.speed = 0
         heroObject.speed = 0
+    }
+    
+    func deathAction() {
+        
+        bgObject.isPaused = true
+        hero.texture = SKTexture(imageNamed: "ko_029.png")
+        hero.speed = 0
+        hero.removeAllChildren()
     }
     
     func reloadGame() {
@@ -366,12 +544,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         timerAddCoin.invalidate()
         timerAddRedCoin.invalidate()
         timerAddBoneTimer.invalidate()
+        timerAddSpiderTimer.invalidate()
+        timerAddBee.invalidate()
+        timerAddShieldItem.invalidate()
         
         timerFunc()
     }
     
     override func didFinishUpdate() {
         heroEmitter.position = hero.position - CGPoint(x: 10, y: 60)
+        shield.position = hero.position + CGPoint(x: 0, y: 0)
     }
 
 }

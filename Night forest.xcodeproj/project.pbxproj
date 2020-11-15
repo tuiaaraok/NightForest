@@ -20,11 +20,13 @@
 		633EC410255E932B00CE6AC7 /* engine.sks in Resources */ = {isa = PBXBuildFile; fileRef = 633EC40F255E932B00CE6AC7 /* engine.sks */; };
 		633EC412255E98B700CE6AC7 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633EC411255E98B700CE6AC7 /* Utils.swift */; };
 		633EC414255EEEE500CE6AC7 /* pickCoin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC413255EEEE500CE6AC7 /* pickCoin.mp3 */; };
-		633EC41D255EFCDE00CE6AC7 /* bat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC41C255EFCDE00CE6AC7 /* bat.mp3 */; };
 		633EC41F255EFDAF00CE6AC7 /* batDeath.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC41E255EFDAF00CE6AC7 /* batDeath.mp3 */; };
 		633EC421255F01BC00CE6AC7 /* batDeath2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC420255F01BC00CE6AC7 /* batDeath2.mp3 */; };
 		633EC423255FEF0D00CE6AC7 /* reloadButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 633EC422255FEF0D00CE6AC7 /* reloadButton.png */; };
 		633EC425255FF34800CE6AC7 /* AnimationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633EC424255FF34800CE6AC7 /* AnimationClass.swift */; };
+		633EC427256028B500CE6AC7 /* bat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC426256028B500CE6AC7 /* bat.mp3 */; };
+		633EC42D256035C700CE6AC7 /* createSpider.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC42C256035C700CE6AC7 /* createSpider.mp3 */; };
+		633EC42F25603DD900CE6AC7 /* bee.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC42E25603DD900CE6AC7 /* bee.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,11 +46,13 @@
 		633EC411255E98B700CE6AC7 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		633EC413255EEEE500CE6AC7 /* pickCoin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pickCoin.mp3; sourceTree = "<group>"; };
 		633EC41A255EEF5B00CE6AC7 /* SKTAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTAudio.swift; sourceTree = "<group>"; };
-		633EC41C255EFCDE00CE6AC7 /* bat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bat.mp3; sourceTree = "<group>"; };
 		633EC41E255EFDAF00CE6AC7 /* batDeath.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = batDeath.mp3; sourceTree = "<group>"; };
 		633EC420255F01BC00CE6AC7 /* batDeath2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = batDeath2.mp3; sourceTree = "<group>"; };
 		633EC422255FEF0D00CE6AC7 /* reloadButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reloadButton.png; sourceTree = "<group>"; };
 		633EC424255FF34800CE6AC7 /* AnimationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationClass.swift; sourceTree = "<group>"; };
+		633EC426256028B500CE6AC7 /* bat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bat.mp3; sourceTree = "<group>"; };
+		633EC42C256035C700CE6AC7 /* createSpider.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = createSpider.mp3; sourceTree = "<group>"; };
+		633EC42E25603DD900CE6AC7 /* bee.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bee.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,8 +108,10 @@
 		633EC417255EEF1500CE6AC7 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				633EC41C255EFCDE00CE6AC7 /* bat.mp3 */,
 				633EC420255F01BC00CE6AC7 /* batDeath2.mp3 */,
+				633EC426256028B500CE6AC7 /* bat.mp3 */,
+				633EC42C256035C700CE6AC7 /* createSpider.mp3 */,
+				633EC42E25603DD900CE6AC7 /* bee.mp3 */,
 				633EC41E255EFDAF00CE6AC7 /* batDeath.mp3 */,
 				633EC413255EEEE500CE6AC7 /* pickCoin.mp3 */,
 			);
@@ -188,15 +194,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				633EC3FB255A849900CE6AC7 /* Main.storyboard in Resources */,
+				633EC42D256035C700CE6AC7 /* createSpider.mp3 in Resources */,
 				633EC41F255EFDAF00CE6AC7 /* batDeath.mp3 in Resources */,
 				633EC421255F01BC00CE6AC7 /* batDeath2.mp3 in Resources */,
+				633EC427256028B500CE6AC7 /* bat.mp3 in Resources */,
 				633EC410255E932B00CE6AC7 /* engine.sks in Resources */,
 				633EC423255FEF0D00CE6AC7 /* reloadButton.png in Resources */,
 				633EC3F2255A849900CE6AC7 /* GameScene.sks in Resources */,
 				633EC40A255AA62400CE6AC7 /* scene.atlas in Resources */,
-				633EC41D255EFCDE00CE6AC7 /* bat.mp3 in Resources */,
 				633EC414255EEEE500CE6AC7 /* pickCoin.mp3 in Resources */,
 				633EC3FD255A849A00CE6AC7 /* Assets.xcassets in Resources */,
+				633EC42F25603DD900CE6AC7 /* bee.mp3 in Resources */,
 				633EC400255A849A00CE6AC7 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,51 +12,76 @@ import  SpriteKit
 extension GameScene {
     func didBegin(_ contact: SKPhysicsContact) {
         
+        let objectNode = contact.bodyA.categoryBitMask == objectGroup ? contact.bodyA.node : contact.bodyB.node
+        
         if contact.bodyA.categoryBitMask == objectGroup || contact.bodyB.categoryBitMask == objectGroup {
             death = true
             hero.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             
-            animations.shakeAndFlashAnimation(view: self.view!)
-            
-            if sound {
-                run(batDeadPreload)
+            if !shieldBool {
+                animations.shakeAndFlashAnimation(view: self.view!)
+                            
+                if sound {
+                    run(batDeadPreload)
+                }
+                            
+                hero.physicsBody?.allowsRotation = false
+                            
+                heroemitterObject.removeAllChildren()
+    //            coinObject.removeAllChildren()
+    //            redCoinObject.removeAllChildren()
+    //            movingObject.removeAllChildren()
+                shieldObject.removeAllChildren()
+                shieldItemObject.removeAllChildren()
+    //            stopGameObject()
+                            
+                timerAddBoneTimer.invalidate()
+                timerAddCoin.invalidate()
+                timerAddRedCoin.invalidate()
+                timerAddSpiderTimer.invalidate()
+                timerAddBee.invalidate()
+                timerAddShieldItem.invalidate()
+                            
+                heroDeathTexturesArray = [
+                            SKTexture(imageNamed: "ko_000.png"), SKTexture(imageNamed: "ko_001.png"), SKTexture(imageNamed: "ko_002.png"), SKTexture(imageNamed: "ko_003.png"), SKTexture(imageNamed: "ko_004.png"), SKTexture(imageNamed: "ko_005.png"), SKTexture(imageNamed: "ko_006.png"), SKTexture(imageNamed: "ko_007.png"), SKTexture(imageNamed: "ko_008.png"), SKTexture(imageNamed: "ko_009.png"), SKTexture(imageNamed: "ko_010.png"), SKTexture(imageNamed: "ko_011.png"), SKTexture(imageNamed: "ko_012.png"), SKTexture(imageNamed: "ko_013.png"), SKTexture(imageNamed: "ko_014.png"), SKTexture(imageNamed: "ko_015.png"), SKTexture(imageNamed: "ko_016.png"), SKTexture(imageNamed: "ko_017.png"), SKTexture(imageNamed: "ko_018.png"), SKTexture(imageNamed: "ko_019.png"), SKTexture(imageNamed: "ko_020.png"), SKTexture(imageNamed: "ko_021.png"), SKTexture(imageNamed: "ko_022.png"), SKTexture(imageNamed: "ko_023.png"), SKTexture(imageNamed: "ko_024.png"), SKTexture(imageNamed: "ko_025.png"), SKTexture(imageNamed: "ko_026.png"), SKTexture(imageNamed: "ko_027.png"), SKTexture(imageNamed: "ko_028.png"), SKTexture(imageNamed: "ko_029.png")
+                ]
+                hero.size.height = 120
+                hero.size.width = 130
+                hero.position = CGPoint(x: self.size.width - 100, y: 0)
+                let heroDeathAnimation = SKAction.animate(with: heroDeathTexturesArray,
+                                                          timePerFrame: 0.03)
+                hero.run(heroDeathAnimation)
+                if death {
+                    deathAction()
+                                          
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.gameViewControllerBridge.refreshGameButton.isHidden = false
+                    }
+                }
+            } else {
+                death = false
+                objectNode?.removeFromParent()
+                shieldObject.removeAllChildren()
+                shieldBool = false
+//                if sound {
+//                    run(shieldOffPreload)
+//                }
             }
-            
-            hero.physicsBody?.allowsRotation = false
-            
-            heroemitterObject.removeAllChildren()
-//            coinObject.removeAllChildren()
-//            redCoinObject.removeAllChildren()
-//            movingObject.removeAllChildren()
-            
-//            stopGameObject()
-            
-            timerAddBoneTimer.invalidate()
-            timerAddCoin.invalidate()
-            timerAddRedCoin.invalidate()
-            
-            heroDeathTexturesArray = [
-            SKTexture(imageNamed: "ko_000.png"), SKTexture(imageNamed: "ko_001.png"), SKTexture(imageNamed: "ko_002.png"), SKTexture(imageNamed: "ko_003.png"), SKTexture(imageNamed: "ko_004.png"), SKTexture(imageNamed: "ko_005.png"), SKTexture(imageNamed: "ko_006.png"), SKTexture(imageNamed: "ko_007.png"), SKTexture(imageNamed: "ko_008.png"), SKTexture(imageNamed: "ko_009.png"), SKTexture(imageNamed: "ko_010.png"), SKTexture(imageNamed: "ko_011.png"), SKTexture(imageNamed: "ko_012.png"), SKTexture(imageNamed: "ko_013.png"), SKTexture(imageNamed: "ko_014.png"), SKTexture(imageNamed: "ko_015.png"), SKTexture(imageNamed: "ko_016.png"), SKTexture(imageNamed: "ko_017.png"), SKTexture(imageNamed: "ko_018.png"), SKTexture(imageNamed: "ko_019.png"), SKTexture(imageNamed: "ko_020.png"), SKTexture(imageNamed: "ko_021.png"), SKTexture(imageNamed: "ko_022.png"), SKTexture(imageNamed: "ko_023.png"), SKTexture(imageNamed: "ko_024.png"), SKTexture(imageNamed: "ko_025.png"), SKTexture(imageNamed: "ko_026.png"), SKTexture(imageNamed: "ko_027.png"), SKTexture(imageNamed: "ko_028.png"), SKTexture(imageNamed: "ko_029.png")
-            ]
-            hero.size.height = 120
-            hero.size.width = 130
-            hero.position = CGPoint(x: self.size.width - 100, y: 0)
-            let heroDeathAnimation = SKAction.animate(with: heroDeathTexturesArray, timePerFrame: 0.03)
-            hero.run(heroDeathAnimation)
-            
+        }
+        
+        if contact.bodyA.categoryBitMask == shieldGroup || contact.bodyB.categoryBitMask == shieldGroup {
+            let shieldNode = contact.bodyA.categoryBitMask == shieldGroup ? contact.bodyA.node : contact.bodyB.node
+            if !shieldBool {
+                if sound { run(pickCoinPreload) }
+                shieldNode?.removeFromParent()
+                addShield()
+                shieldBool = true
+            }
         }
         
         if contact.bodyA.categoryBitMask == groundGroup || contact.bodyB.categoryBitMask == groundGroup {
             if death {
-                bgObject.isPaused = true
-                hero.texture = SKTexture(imageNamed: "ko_029.png")
-                hero.speed = 0
-                hero.removeAllChildren()
-               
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.gameViewControllerBridge.refreshGameButton.isHidden = false
-                }
-           
+                deathAction()
             } else {
                 heroEmitter.isHidden = true
                 heroRunTexturesArray = [
@@ -67,7 +92,6 @@ extension GameScene {
                            
                 hero.run(heroRun)
             }
-           
         }
         
         if contact.bodyA.categoryBitMask == coinGroup || contact.bodyB.categoryBitMask == coinGroup {
