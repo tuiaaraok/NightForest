@@ -13,12 +13,21 @@ extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         heroEmitter.isHidden = false
-        hero.physicsBody?.velocity = CGVector.zero
-        hero.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 180))
         
-        heroflyTexturesArray = [SKTexture(imageNamed: "jump.png")]
-        let heroFlyAnimation = SKAction.animate(with: heroflyTexturesArray, timePerFrame: 0.02)
-        let flyHero = SKAction.repeatForever(heroFlyAnimation)
-        hero.run(flyHero)
+        if gameOver == 0 {
+            if !tabToPlayLabel.isHidden {
+                tabToPlayLabel.isHidden = true
+            }
+            
+            if gameOver == 0{
+                hero.physicsBody?.velocity = CGVector.zero
+                hero.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 180))
+                                  
+                heroflyTexturesArray = [SKTexture(imageNamed: "jump.png")]
+                let heroFlyAnimation = SKAction.animate(with: heroflyTexturesArray, timePerFrame: 0.02)
+                let flyHero = SKAction.repeatForever(heroFlyAnimation)
+                hero.run(flyHero)
+            }
+        }
     }
 }

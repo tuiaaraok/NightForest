@@ -27,6 +27,7 @@
 		633EC427256028B500CE6AC7 /* bat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC426256028B500CE6AC7 /* bat.mp3 */; };
 		633EC42D256035C700CE6AC7 /* createSpider.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC42C256035C700CE6AC7 /* createSpider.mp3 */; };
 		633EC42F25603DD900CE6AC7 /* bee.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 633EC42E25603DD900CE6AC7 /* bee.mp3 */; };
+		633EC4312561469700CE6AC7 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 633EC4302561469700CE6AC7 /* restart.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		633EC426256028B500CE6AC7 /* bat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bat.mp3; sourceTree = "<group>"; };
 		633EC42C256035C700CE6AC7 /* createSpider.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = createSpider.mp3; sourceTree = "<group>"; };
 		633EC42E25603DD900CE6AC7 /* bee.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bee.mp3; sourceTree = "<group>"; };
+		633EC4302561469700CE6AC7 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				633EC422255FEF0D00CE6AC7 /* reloadButton.png */,
+				633EC4302561469700CE6AC7 /* restart.png */,
 				633EC3EF255A849900CE6AC7 /* AppDelegate.swift */,
 				633EC3F1255A849900CE6AC7 /* GameScene.sks */,
 				633EC3F5255A849900CE6AC7 /* GameScene.swift */,
@@ -204,6 +207,7 @@
 				633EC40A255AA62400CE6AC7 /* scene.atlas in Resources */,
 				633EC414255EEEE500CE6AC7 /* pickCoin.mp3 in Resources */,
 				633EC3FD255A849A00CE6AC7 /* Assets.xcassets in Resources */,
+				633EC4312561469700CE6AC7 /* restart.png in Resources */,
 				633EC42F25603DD900CE6AC7 /* bee.mp3 in Resources */,
 				633EC400255A849A00CE6AC7 /* LaunchScreen.storyboard in Resources */,
 			);

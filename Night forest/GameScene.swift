@@ -17,6 +17,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var death = false
     var animations = AnimationClass()
     var shieldBool = false
+    var score = 0
+    var highScore = 0
+    var gameOver = 0
+//    var gSceneDifficulty: DifficultyChoosing!
+//    var gSceneBg: BGChoosing!
     
     // TEXTURES
     var bgTexture: SKTexture!
@@ -35,6 +40,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Emitters Node
     var heroEmitter = SKEmitterNode()
+    
+    // Label Nodes
+    var tabToPlayLabel = SKLabelNode()
+    var scoreLabel = SKLabelNode()
+    var highScoreLabel = SKLabelNode()
+    var highScoreTextLabel = SKLabelNode()
+    var stageLabel = SKLabelNode()
     
     // emitter
     var haveEmitter = false
@@ -63,6 +75,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var redCoinObject = SKNode()
     var shieldObject = SKNode()
     var shieldItemObject = SKNode()
+    var labelObject = SKNode()
     
     // Bit masks
     var heroGroup: UInt32 = 0x1 << 1
@@ -99,6 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shieldOffPreload = SKAction()
     
     override func didMove(to view: SKView) {
+        
         // Background texture
         bgTexture = SKTexture(imageNamed: "bg01.png")
         
@@ -127,7 +141,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         
         createObjects()
-        createGame()
+        
+        if UserDefaults.standard.object(forKey: "highScore") != nil {
+            highScore = UserDefaults.standard.object(forKey: "highScore") as! Int
+            highScoreLabel.text = "\(highScore)"
+        }
+        
+        if gameOver == 0 {
+            createGame()
+        }
         
         pickCoinPreload = SKAction.playSoundFileNamed("pickCoin.mp3", waitForCompletion: false)
         batCreatePreload = SKAction.playSoundFileNamed("bat.mp3", waitForCompletion: false)
@@ -147,6 +169,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(redCoinObject)
         self.addChild(shieldObject)
         self.addChild(shieldItemObject)
+        self.addChild(labelObject)
     }
     
     func createGame() {
@@ -161,8 +184,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addBat()
             self.addSpider()
         }
+        showTapToPlay()
+        showScore()
+        showStage()
+        highScoreTextLabel.isHidden = true
         
         gameViewControllerBridge.refreshGameButton.isHidden = true
+        
+        if labelObject.children.count != 0 {
+            labelObject.removeAllChildren()
+        }
     }
     
     func createBg() {
@@ -175,7 +206,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for i in 0..<3 {
             bg = SKSpriteNode(texture: bgTexture)
             bg.position = CGPoint(x: size.width / 4 + bgTexture.size().width * CGFloat(i), y: size.height / 2.0)
-            bg.size.height = self.frame.height
+            let screenSize = UIScreen.main.bounds
+            if screenSize.width > 800 {
+                bg.size.height = self.frame.height * 8 / 10
+            } else {
+                bg.size.height = self.frame.height
+            }
             bg.run(moveBgForever)
             bg.zPosition = -1
             
@@ -185,7 +221,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createGround() {
         ground = SKSpriteNode()
-        ground.position = CGPoint(x: 0, y: self.frame.minX)
+        let screenSize = UIScreen.main.bounds
+        if screenSize.width > 800 {
+            ground.position = CGPoint(x: 0, y: self.frame.minX + 40)
+        } else {
+            ground.position = CGPoint(x: 0, y: self.frame.minX)
+        }
         ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.width, height: self.frame.height / 4 + self.frame.height/8))
         ground.physicsBody?.isDynamic = false
         ground.physicsBody?.categoryBitMask = groundGroup
@@ -387,8 +428,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                
         spider.setScale(scaleValue)
             
-               
-        spider.position = CGPoint(x: self.frame.size.width + 150, y: self.frame.size.height / 4 - self.frame.size.height / 24)
+        let screenSize = UIScreen.main.bounds
+        if screenSize.width > 800 {
+             spider.position = CGPoint(x: self.frame.size.width + 150, y: self.frame.size.height / 4 - self.frame.size.height / 24 + 40)
+        } else {
+            spider.position = CGPoint(x: self.frame.size.width + 150, y: self.frame.size.height / 4 - self.frame.size.height / 24)
+        }
                
         let moveSpiderX = SKAction.moveTo(x: -self.frame.size.width / 4, duration: 4)
         spider.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: spider.size.width - 40, height: spider.size.height - 30))
@@ -489,6 +534,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shieldItemObject.addChild(shieldItem)
     }
     
+    func showTapToPlay() {
+        tabToPlayLabel.text = "Tap to fly!"
+        tabToPlayLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        tabToPlayLabel.fontSize = 50
+        tabToPlayLabel.fontColor = .white
+        tabToPlayLabel.fontName = "Chalkduster"
+        tabToPlayLabel.zPosition = 1
+        self.addChild(tabToPlayLabel)
+    }
+    
+    func showScore() {
+        scoreLabel.fontName = "Chalkduster"
+        scoreLabel.text = "0"
+        scoreLabel.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - 200)
+        scoreLabel.fontSize = 60
+        scoreLabel.fontColor = .white
+        scoreLabel.zPosition = 1
+        self.addChild(scoreLabel)
+    }
+    
+    func showHighScore() {
+        highScoreLabel = SKLabelNode()
+        highScoreLabel.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.maxY - 210)
+        highScoreLabel.fontSize = 50
+        highScoreLabel.fontName = "Chalkduster"
+        highScoreLabel.fontColor = .white
+        highScoreLabel.isHidden = true
+        highScoreLabel.zPosition = 1
+        labelObject.addChild(highScoreLabel)
+    }
+    
+    func showHighScoreText() {
+        highScoreTextLabel = SKLabelNode()
+        highScoreTextLabel.position = CGPoint(x: self.frame.maxX - 100, y: self.frame.maxY - 150)
+        highScoreTextLabel.fontSize = 30
+        highScoreTextLabel.fontName = "Chalkduster"
+        highScoreTextLabel.fontColor = .white
+        highScoreTextLabel.text = "HighScore"
+        highScoreTextLabel.zPosition = 1
+        labelObject.addChild(highScoreTextLabel)
+    }
+    
+    func showStage() {
+        stageLabel.position = CGPoint(x: self.frame.maxX - 60, y: self.frame.maxY - 140)
+        stageLabel.fontSize = 30
+        stageLabel.fontName = "Chalkduster"
+        stageLabel.fontColor = .white
+        stageLabel.text = "Stage 1"
+        stageLabel.zPosition = 1
+        self.addChild(stageLabel)
+    }
+    
     func timerFunc() {
         timerAddCoin.invalidate()
         timerAddRedCoin.invalidate()
@@ -525,6 +622,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         coinObject.removeAllChildren()
         redCoinObject.removeAllChildren()
         
+        stageLabel.text = "Stage 1"
+        gameOver = 0
         scene?.isPaused = false
         
         movingObject.removeAllChildren()
@@ -536,10 +635,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bgObject.isPaused = false
         self.scene?.speed = 1
         
+        if labelObject.children.count != 0 {
+            labelObject.removeAllChildren()
+        }
+        
         createGround()
         createSky()
         createHero()
         createHeroemitter()
+        
+        score = 0
+        scoreLabel.text = "0"
+        stageLabel.isHidden = false
+        highScoreTextLabel.isHidden = true
+        showHighScore()
         
         timerAddCoin.invalidate()
         timerAddRedCoin.invalidate()
